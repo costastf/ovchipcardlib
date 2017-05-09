@@ -1,0 +1,26 @@
+#!/bin/bash --login
+set -e
+cd $(dirname $0)/../..
+
+. _CI/scripts/bootstrap
+
+rm -rf build dist
+
+# we want all these files to exist in the actual package
+cp .VERSION ovchipcardlib/.VERSION
+cp LICENSE ovchipcardlib/LICENSE
+cp AUTHORS.rst ovchipcardlib/AUTHORS.rst
+cp CONTRIBUTING.rst ovchipcardlib/CONTRIBUTING.rst
+cp HISTORY.rst ovchipcardlib/HISTORY.rst
+cp README.rst ovchipcardlib/README.rst
+cp USAGE.rst ovchipcardlib/USAGE.rst
+
+python setup.py sdist bdist_egg upload -r pypi
+
+rm ovchipcardlib/.VERSION
+rm ovchipcardlib/LICENSE
+rm ovchipcardlib/AUTHORS.rst
+rm ovchipcardlib/CONTRIBUTING.rst
+rm ovchipcardlib/HISTORY.rst
+rm ovchipcardlib/README.rst
+rm ovchipcardlib/USAGE.rst
