@@ -61,7 +61,7 @@ CLIENT_ID = 'nmOIiEJO5khvtLBK9xad3UkkS8Ua'
 CLIENT_SECRET = 'FE8ef6bVBiyN0NeyUJ5VOWdelvQa'  # noqa
 
 
-class Service(object):
+class Service:  # pylint: disable=too-many-instance-attributes
     """Object representing the ov chip card service.
 
     Can authenticate with the appropriate credentials and retrieves cards
@@ -69,11 +69,12 @@ class Service(object):
     """
 
     def __init__(self, username, password):
-        """Initializing of the Service object
+        """Initializing of the Service object.
 
         Args:
             username (str): The username to log in with
             password (str): The password to log in with
+
         """
         logger_name = '{base}.{suffix}'.format(base=LOGGER_BASENAME,
                                                suffix=self.__class__.__name__)
@@ -90,10 +91,11 @@ class Service(object):
         self._token = self._get_token()
 
     def _get_token(self):
-        """Gets the authentication token from the service
+        """Gets the authentication token from the service.
 
         Returns:
             Token object of the retrieved token
+
         """
         params = {'username': self.username,
                   'password': self.password,
@@ -104,10 +106,11 @@ class Service(object):
         return self._retrieve_token(params)
 
     def _refresh_token(self):
-        """Refreshes the authentication token from the service
+        """Refreshes the authentication token from the service.
 
         Returns:
             True on success
+
         """
         params = {'refresh_token': self._token.refresh,
                   'client_id': self._client_id,
@@ -117,7 +120,7 @@ class Service(object):
         return True
 
     def _retrieve_token(self, data):
-        """Does the actual posting to the service for the token
+        """Does the actual posting to the service for the token.
 
         Args:
             data (dict): The dictionary with the arguments to post to the
@@ -125,6 +128,7 @@ class Service(object):
 
         Returns:
             Token object of the retrieved token
+
         """
         response = requests.post(self._auth_url, data=data)
         if not response.ok:
@@ -140,10 +144,11 @@ class Service(object):
 
     @property
     def authorization_token(self):
-        """The authorization token
+        """The authorization token.
 
         Returns:
              auth_token (str): The string of the authentication token
+
         """
         if not self._auth_token:
             params = {'authenticationToken': self._token.id}
@@ -166,10 +171,11 @@ class Service(object):
 
     @property
     def cards(self):
-        """Retrieves the cards and instantiates the Card objects
+        """Retrieves the cards and instantiates the Card objects.
 
         Returns:
              cards (list): A list of card objects
+
         """
         if not self._cards:
             params = {'authorizationToken': self.authorization_token,
@@ -195,13 +201,14 @@ class Service(object):
         return self._cards
 
     def get_card_by_alias(self, alias):
-        """Returns a card object by alias
+        """Returns a card object by alias.
 
         Args:
             alias (str):The alias of the card to look for
 
         Returns:
              A card object if a match found or None
+
         """
         return next((card for card in self.cards
                      if card.alias.lower() == alias.lower()), None)

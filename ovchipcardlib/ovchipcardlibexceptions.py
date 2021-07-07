@@ -51,4 +51,4 @@ class UnAuthorized(Exception):
 
 
 class BrokenResponse(Exception):
-    """Server did not respond as expected"""
+    """Server did not respond as expected."""
