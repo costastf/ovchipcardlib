@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 #
 # ovchipcardlib documentation build configuration file, created by
-# sphinx-quickstart on Tue Jul  9 22:26:36 2013.
+# sphinx-quickstart
 #
 # This file is execfile()d with the current directory set to its
 # containing dir.
@@ -28,9 +28,10 @@ cwd = os.getcwd()
 project_root = os.path.dirname(cwd)
 
 # Run apidoc to traverse the project directory and add all modules to the docs
-import sphinx.apidoc
-sphinx.apidoc.main(argv=['_','-f', '-o', os.path.join(project_root, 'docs'),
-                   os.path.join(project_root, '''ovchipcardlib''')])
+import sphinx.ext.apidoc
+
+sphinx.ext.apidoc.main(argv=['-f', '-o', os.path.join(project_root, 'docs'),
+                             os.path.join(project_root, '''ovchipcardlib''')])
 
 # parse the index.rst and fix the title underlining
 with open(os.path.join(os.path.abspath(os.path.dirname(__file__)),
@@ -61,7 +62,8 @@ import ovchipcardlib
 extensions = [
     'sphinx.ext.autodoc',
     'sphinx.ext.viewcode',
-    'sphinx.ext.napoleon'
+    'sphinx.ext.napoleon',
+    'sphinx.ext.todo'
 ]
 
 napoleon_google_docstring = True

@@ -3,12 +3,14 @@
 # File: helpers.py
 """Helper Modules"""
 
-import requests
 import logging
 from collections import namedtuple
-from ovchipcardlibexceptions import BrokenResponse
 from datetime import datetime
 from time import sleep
+
+import requests
+
+from .ovchipcardlibexceptions import BrokenResponse
 
 __author__ = '''Costas Tyfoxylos <costas.tyf@gmail.com>'''
 __docformat__ = 'plaintext'

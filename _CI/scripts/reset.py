@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-# File: _version.py
+# File: reset.py
 #
-# Copyright 2017 Costas Tyfoxylos
+# Copyright 2018 Costas Tyfoxylos
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 #  of this software and associated documentation files (the "Software"), to
@@ -23,43 +23,29 @@
 #  DEALINGS IN THE SOFTWARE.
 #
 
-"""
-Manages the version of the package.
-
-.. _Google Python Style Guide:
-   http://google.github.io/styleguide/pyguide.html
-
-"""
-
 import os
+import sys
+import shutil
+import stat
+import logging
 
-__author__ = '''Costas Tyfoxylos <costas.tyf@gmail.com>'''
-__docformat__ = '''google'''
-__date__ = '''14-04-2017'''
-__copyright__ = '''Copyright 2017, Costas Tyfoxylos'''
-__license__ = '''MIT'''
-__maintainer__ = '''Costas Tyfoxylos'''
-__email__ = '''<costas.tyf@gmail.com>'''
-__status__ = '''Development'''  # "Prototype", "Development", "Production".
+# this sets up everything and MUST be included before any third party module in every step
+import _initialize_template
 
-VERSION_FILE_PATH = os.path.abspath(
-    os.path.join(
-        os.path.dirname(__file__),
-        '..',
-        '.VERSION'
-    )
-)
+from configuration import ENVIRONMENT_VARIABLES
+from library import clean_up, get_project_root_path
 
-LOCAL_VERSION_FILE_PATH = os.path.abspath(
-    os.path.join(
-        os.path.dirname(__file__),
-        '.VERSION'
-    )
-)
+# This is the main prefix used for logging
+LOGGER_BASENAME = '''_CI.reset'''
+LOGGER = logging.getLogger(LOGGER_BASENAME)
+LOGGER.addHandler(logging.NullHandler())
 
-try:
-    with open(VERSION_FILE_PATH) as f:
-        __version__ = f.read()
-except IOError:
-    with open(LOCAL_VERSION_FILE_PATH) as f:
-        __version__ = f.read()
+
+def reset(environment_variables):
+    pipfile_path = environment_variables.get('PIPENV_PIPFILE', 'Pipfile')
+    venv = os.path.join(get_project_root_path(), os.path.dirname(pipfile_path), '.venv')
+    clean_up(venv)
+
+
+if __name__ == '__main__':
+    reset(ENVIRONMENT_VARIABLES)

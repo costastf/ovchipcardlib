@@ -2,56 +2,52 @@
 # -*- coding: utf-8 -*-
 
 from setuptools import setup, find_packages
+try:
+    from pipenv.project import Project
+    from pipenv.utils import convert_deps_to_pip
+
+    pfile = Project().parsed_pipfile
+    requirements = convert_deps_to_pip(pfile['packages'], r=False)
+    test_requirements = convert_deps_to_pip(pfile['dev-packages'], r=False)
+except ImportError:
+    # get the requirements from the requirements.txt
+    requirements = [line.strip()
+                    for line in open('requirements.txt').readlines()
+                    if line.strip() and not line.startswith('#')]
+    # get the test requirements from the test_requirements.txt
+    test_requirements = [line.strip()
+                         for line in
+                         open('dev-requirements.txt').readlines()
+                         if line.strip() and not line.startswith('#')]
 
 readme = open('README.rst').read()
 history = open('HISTORY.rst').read().replace('.. :changelog:', '')
 version = open('.VERSION').read()
 
-# get the requirements from the requirements.txt
-requirements_file = [line.strip()
-                     for line in open('requirements.txt').readlines()
-                     if line.strip() and not line.startswith('#')]
-requirements = requirements_file
-
-# get the test requirements from the test_requirements.txt
-test_requirements = [line.strip()
-                     for line in open('requirements/testing.txt').readlines()
-                     if line.strip() and not line.startswith('#')]
 
 setup(
     name='''ovchipcardlib''',
     version=version,
-    description='''A library to interact with the ov-chip card service''',
+    description='''A library to interact with ov-chip cards on line api. ''',
     long_description=readme + '\n\n' + history,
     author='''Costas Tyfoxylos''',
     author_email='''costas.tyf@gmail.com''',
-    url='''https://github.com/costastf/ovchipcardlib.git''',
-    packages=find_packages(where='.', exclude=('tests', 'hooks')),
+    url='''https://github.com/costastf/ovchipcardlib''',
+    packages=find_packages(where='.', exclude=('tests', 'hooks', '_CI*')),
     package_dir={'''ovchipcardlib''':
                  '''ovchipcardlib'''},
     include_package_data=True,
     install_requires=requirements,
-    license="MIT",
+    license='MIT',
     zip_safe=False,
-    keywords='''ovchipcardlib''',
+    keywords='''ovchipcardlib OV-Chip''',
     classifiers=[
         'Development Status :: 4 - Beta',
         'Intended Audience :: Developers',
         'License :: OSI Approved :: MIT License',
         'Natural Language :: English',
-        'Programming Language :: Python',
-    ],
+        'Programming Language :: Python :: 3.7',
+        ],
     test_suite='tests',
-    tests_require=test_requirements,
-    data_files=[
-        ('', [
-            '.VERSION',
-            'LICENSE',
-            'AUTHORS.rst',
-            'CONTRIBUTING.rst',
-            'HISTORY.rst',
-            'README.rst',
-            'USAGE.rst',
-        ]),
-    ]
+    tests_require=test_requirements
 )

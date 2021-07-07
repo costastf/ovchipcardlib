@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-# File: _version.py
+# File: __init__.py
 #
-# Copyright 2017 Costas Tyfoxylos
+# Copyright 2018 Costas Tyfoxylos
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 #  of this software and associated documentation files (the "Software"), to
@@ -22,44 +22,10 @@
 #  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 #  DEALINGS IN THE SOFTWARE.
 #
-
-"""
-Manages the version of the package.
-
-.. _Google Python Style Guide:
-   http://google.github.io/styleguide/pyguide.html
-
-"""
-
-import os
-
-__author__ = '''Costas Tyfoxylos <costas.tyf@gmail.com>'''
-__docformat__ = '''google'''
-__date__ = '''14-04-2017'''
-__copyright__ = '''Copyright 2017, Costas Tyfoxylos'''
-__license__ = '''MIT'''
-__maintainer__ = '''Costas Tyfoxylos'''
-__email__ = '''<costas.tyf@gmail.com>'''
-__status__ = '''Development'''  # "Prototype", "Development", "Production".
-
-VERSION_FILE_PATH = os.path.abspath(
-    os.path.join(
-        os.path.dirname(__file__),
-        '..',
-        '.VERSION'
-    )
-)
-
-LOCAL_VERSION_FILE_PATH = os.path.abspath(
-    os.path.join(
-        os.path.dirname(__file__),
-        '.VERSION'
-    )
-)
-
-try:
-    with open(VERSION_FILE_PATH) as f:
-        __version__ = f.read()
-except IOError:
-    with open(LOCAL_VERSION_FILE_PATH) as f:
-        __version__ = f.read()
+from .configuration import (LOGGING_LEVEL,
+                            ENVIRONMENT_VARIABLES,
+                            PREREQUISITES,
+                            BUILD_REQUIRED_FILES,
+                            LOGGERS_TO_DISABLE,
+                            BRANCHES_SUPPORTED_FOR_TAG,
+                            PROJECT_SLUG)
